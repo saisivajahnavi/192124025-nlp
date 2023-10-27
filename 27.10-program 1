@@ -1,0 +1,5 @@
+import re
+text="i love pets more than humans"
+word_pattern=r'\w+'
+words=re.findall(word_pattern,text)
+print(words)
