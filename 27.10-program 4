@@ -1,0 +1,40 @@
+import nltk
+nltk.download('wordnet')
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+from nltk.corpus import wordnet
+
+nltk.download("averaged_perceptron_tagger")
+
+word_classes = ['noun', 'verb', 'adjective', 'adverb', 'open', 'closed']
+pos_tags = {
+    'n': 'NN',
+    'v': 'VB',
+    'a': 'JJ',
+    'r': 'RB',
+    'u': 'UH',
+}
+
+def tag_word(word):
+    synsets = wordnet.synsets(word)
+    if synsets:
+        pos_tag = pos_tags.get(synsets[0].pos()[0], None)
+        return word, pos_tag
+    else:
+        return word, None
+
+def tag_sentence(sentence):
+    tokens = nltk.word_tokenize(sentence)
+    tagged_words = [tag_word(token) for token in tokens]
+    return tagged_words
+
+def print_tagged_sentence(tagged_sentence):
+    for word, pos_tag in tagged_sentence:
+        if pos_tag:
+            print(f'{word}/{pos_tag}')
+        else:
+            print(f'{word}/<not found>')
+
+sentence = 'the quick brown fox jumps over the lazy dog'
+tagged_sentence = tag_sentence(sentence)
+print_tagged_sentence(tagged_sentence)
