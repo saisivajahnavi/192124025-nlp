@@ -1,0 +1,27 @@
+import random
+import re 
+
+patterns = [
+    (r'(.)computer(.)', ['have you tried turning it on again?', 'is your computer plugged in?', 'tell me more about your computer issue']),
+    (r'(.)internet(.)', ['have you checked your wifi connection?', 'is your internet service provider having issues?', 'please describe the internet problem in more detail']),
+    (r'(.)help(.)', ['I am here to help you with?', 'How can I assist you today?', 'Feel free to ask me anything']),
+    (r'(.*)', ['Could you please elaborate?', 'Tell me more', 'I see. Please go on.'])  
+    
+]
+
+def respond(input_text):
+    for pattern, responses in patterns:
+        match = re.match(pattern, input_text.lower())
+        if match:
+            response = random.choice(responses)
+            return response
+    return "I'm sorry, I don't understand. Can you rephrase your question?"
+
+print("Tech Support Bot: Hi, how can I assist you today?")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == 'exit':
+        print("Tech Support Bot: Goodbye!")
+        break
+    response = respond(user_input)
+    print("Tech Support Bot:", response)
