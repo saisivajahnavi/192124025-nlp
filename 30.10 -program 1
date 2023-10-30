@@ -1,0 +1,29 @@
+import nltk
+from nltk import PCFG, ViterbiParser
+
+pcfg_grammar = PCFG.fromstring("""
+    S -> NP VP [1.0]
+    NP -> Det N [0.7] | Pronoun [0.3]
+    VP -> V NP [0.9] | VP PP [0.1]
+    PP -> P NP [1.0]
+    Det -> 'the' [0.4] | 'a' [0.6]
+    N -> 'cat' [0.2] | 'dog' [0.3] | 'bat' [0.5]
+    Pronoun -> 'I' [0.4] | 'you' [0.3] | 'he' [0.2] | 'she' [0.1]
+    V -> 'chased' [0.5] | 'saw' [0.5]
+    P -> 'with' [0.6] | 'in' [0.4]
+""")
+
+parser = ViterbiParser(pcfg_grammar)
+
+
+sentence = "the cat chased the dog with a bat"
+tokens = sentence.split()
+
+parsed_trees = list(parser.parse(tokens))
+
+
+for tree in parsed_trees:
+    tree.pretty_print()
+    
+most_likely_parse = parsed_trees[0]
+print("PCFG output (most likely parse) probability:", most_likely_parse.prob())
