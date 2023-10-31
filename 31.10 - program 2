@@ -1,0 +1,7 @@
+import re
+
+email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+text = "Please contact support@example.com or john.doe123@gmail.com for assistance."
+email_addresses = re.findall(email_pattern, text)
+for email in email_addresses:
+    print("Valid Email Address:", email)
